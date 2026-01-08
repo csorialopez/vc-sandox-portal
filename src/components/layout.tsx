@@ -51,7 +51,7 @@ import { ReceiveCredentialDialog } from "./receive-credential-dialog";
 import { AddVerificationTemplateDialog } from "./add-verification-template-dialog";
 
 const menuItems = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/", label: "Dashboard test", icon: LayoutDashboard },
   { href: "/credentials", label: "Credentials Issued", icon: CreditCard },
   { href: "/credential-issuance", label: "Issuance", icon: CreditCard },
   { href: "/credentials-verification", label: "Verification", icon: ShieldCheck },

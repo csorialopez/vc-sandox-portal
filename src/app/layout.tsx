@@ -6,7 +6,7 @@ import { AppLayout } from '@/components/layout';
 import { SettingsProvider } from '@/context/settings-context';
 
 export const metadata: Metadata = {
-  title: 'VC SANDBOX',
+  title: 'DC SANDBOX',
   description: 'Manage your digital credentials with ease.',
 };
 

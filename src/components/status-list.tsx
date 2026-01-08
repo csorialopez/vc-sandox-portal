@@ -18,8 +18,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Search, ChevronLeft, ChevronRight, Loader2, AlertTriangle } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Loader2, AlertTriangle, MoreHorizontal } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { format } from "date-fns";
@@ -45,6 +58,7 @@ export function StatusList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -91,6 +105,10 @@ export function StatusList() {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
+  const handleViewDetails = () => {
+    setIsDialogOpen(true);
+  };
+
   const renderContent = () => {
     if (loading) {
       return (
@@ -119,8 +137,9 @@ export function StatusList() {
                 <TableHead>Expiry Date</TableHead>
                 <TableHead>Credential Type</TableHead>
                 <TableHead>Format</TableHead>
-                <TableHead>Status List ID</TableHead>
+                <TableHead>ID in Status List</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Status List</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -143,6 +162,21 @@ export function StatusList() {
                       {credential.status}
                     </Badge>
                   </TableCell>
+                  <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0" disabled={false}>
+                        <span className="sr-only">Open menu</span>
+                         <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onSelect={() => handleViewDetails()}>
+                        View Details
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -155,7 +189,6 @@ export function StatusList() {
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Status List</h2>
       </div>
-
       <Card>
         <CardHeader>
           <CardTitle>Credential Status</CardTitle>
@@ -208,6 +241,16 @@ export function StatusList() {
             </CardFooter>
         )}
       </Card>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>View Status List Details</DialogTitle>
+            <DialogDescription>
+              Status list details will be displayed here.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

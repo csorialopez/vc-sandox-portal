@@ -14,7 +14,6 @@ export default function SettingsPage() {
       <h1 className="text-3xl font-bold tracking-tight mb-8">
         Settings
       </h1>
-      
       <div className="space-y-8">
         <Card className="max-w-2xl">
           <CardHeader>
@@ -26,9 +25,9 @@ export default function SettingsPage() {
           <CardContent>
             <div className="flex items-center justify-between space-x-2 p-4 border rounded-lg">
               <Label htmlFor="user-data-visualization" className="flex flex-col space-y-1">
-                <span className="font-medium">User Data Visualization</span>
+                <span className="font-medium">Holder Data Visualization</span>
                 <span className="text-sm text-muted-foreground">
-                  Control the visibility of user identifying information in lists.
+                  Control the visibility of holder identifying information in lists.
                 </span>
               </Label>
               <div className="flex items-center gap-2">
@@ -43,8 +42,26 @@ export default function SettingsPage() {
               </div>
             </div>
           </CardContent>
+          <CardContent>
+            <div className="flex items-center justify-between space-x-2 p-4 border rounded-lg">
+              <Label htmlFor="user-data-visualization" className="flex flex-col space-y-1">
+                <span className="font-medium">Activity Logging</span>
+                <span className="text-sm text-muted-foreground">
+                  Track and store real-time issuance and verification events.
+                </span>
+              </Label>
+              <div className="flex items-center gap-2">
+                  <Switch
+                      id="user-data-visualization"
+                      checked={false}
+                  />
+                  <span className="text-sm text-muted-foreground font-medium">
+                      {'Disabled'}
+                  </span>
+              </div>
+            </div>
+          </CardContent>
         </Card>
-
         <Card className="max-w-2xl">
             <CardHeader>
                 <CardTitle>Branding</CardTitle>

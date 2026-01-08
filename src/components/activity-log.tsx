@@ -11,6 +11,12 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import {
   Table,
   TableBody,
   TableCell,
@@ -20,9 +26,16 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { activityLogData } from "@/lib/data";
-import { Search, BadgeCheck, BadgeX, FilePlus, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, BadgeCheck, BadgeX, FilePlus, ChevronLeft, ChevronRight, AlertTriangle, MoreHorizontal } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const eventIcons = {
   "Credential Issued": <FilePlus className="w-4 h-4 text-blue-500" />,
@@ -35,6 +48,7 @@ const PAGE_SIZE = 15;
 export function ActivityLog() {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const filteredEvents = activityLogData.filter(
     (event) =>
@@ -56,15 +70,22 @@ export function ActivityLog() {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
+  const handleViewDetails = () => {
+    setIsDialogOpen(true);
+  };
+
 
   return (
     <div className="w-full max-w-7xl mx-auto space-y-8 p-4 md:p-8">
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Activity Log</h2>
       </div>
-
       <Card>
         <CardHeader>
+        <CardDescription className="flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-warning" />
+          Loggin: OFF
+        </CardDescription>
           <CardTitle>Recent Events</CardTitle>
           <CardDescription>
             A log of recent credential-related activities in the system.
@@ -101,6 +122,21 @@ export function ActivityLog() {
                     <Badge variant="secondary">{log.credential}</Badge>
                    </TableCell>
                   <TableCell>{log.date}</TableCell>
+                  <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0" disabled={false}>
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onSelect={() => {handleViewDetails()}}>
+                        View Details
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -136,6 +172,16 @@ export function ActivityLog() {
           </div>
         </CardFooter>
       </Card>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>View Event details</DialogTitle>
+            <DialogDescription>
+              Extended logging unavailable. Only basic transaction metadata was retained.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

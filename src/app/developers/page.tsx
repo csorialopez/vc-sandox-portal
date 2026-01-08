@@ -13,8 +13,29 @@ export default function DevelopersPage() {
       <h1 className="text-3xl font-bold tracking-tight mb-8">
         Developers
       </h1>
-      
       <div className="space-y-8">
+      <Card className="max-w-2xl">
+          <CardHeader>
+            <CardTitle>How to manage issuers</CardTitle>
+            <CardDescription>
+              Description.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center py-6">
+            <Badge variant="outline">Work in Progress</Badge>
+          </CardContent>
+        </Card>
+        <Card className="max-w-2xl">
+          <CardHeader>
+            <CardTitle>How to manage credential types</CardTitle>
+            <CardDescription>
+              Description.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center py-6">
+            <Badge variant="outline">Work in Progress</Badge>
+          </CardContent>
+        </Card>
         <Card className="max-w-2xl">
           <CardHeader>
             <CardTitle>How to issue credentials</CardTitle>
@@ -26,7 +47,17 @@ export default function DevelopersPage() {
             <Badge variant="outline">Work in Progress</Badge>
           </CardContent>
         </Card>
-
+        <Card className="max-w-2xl">
+          <CardHeader>
+            <CardTitle>How to manage credential status</CardTitle>
+            <CardDescription>
+              Description.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex items-center justify-center py-6">
+            <Badge variant="outline">Work in Progress</Badge>
+          </CardContent>
+        </Card>
         <Card className="max-w-2xl">
           <CardHeader>
             <CardTitle>How to verify credentials</CardTitle>
@@ -127,8 +158,7 @@ export default function DevelopersPage() {
               </DialogContent>
             </Dialog>
           </CardContent>
-        </Card>
-        
+        </Card>  
         <Card className="max-w-2xl">
           <CardHeader>
             <CardTitle>SD-JWT VC credentials Debugger</CardTitle>

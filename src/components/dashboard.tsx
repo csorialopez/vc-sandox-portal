@@ -129,21 +129,21 @@ export function Dashboard() {
 
   const dashboardStats = [
     {
-      title: "Total Users",
+      title: "User Holders",
       value: loading ? <Loader2 className="h-6 w-6 animate-spin" /> : totalUniqueUsers,
-      description: "Unique users in the system",
+      description: "Unique identities in the ecosystem",
       icon: Users,
     },
     {
       title: "Total Credentials Issued",
       value: loading ? <Loader2 className="h-6 w-6 animate-spin" /> : totalCredentialsCount,
-      description: "Credentials issued to users",
+      description: "Active credentials in circulation",
       icon: Fingerprint,
     },
     {
-      title: "Total Credential Templates",
+      title: "Templates",
       value: "5",
-      description: "Available credential templates",
+      description: "Available templates & policies",
       icon: ClipboardList,
     },
   ];
@@ -233,23 +233,6 @@ export function Dashboard() {
                     {credential.status || 'UNKNOWN'}
                   </Badge>
                 </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Open menu</span>
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>View details</DropdownMenuItem>
-                    <DropdownMenuItem>View Credential</DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive">
-                      Revoke
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -262,7 +245,6 @@ export function Dashboard() {
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
       </div>
-
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {dashboardStats.map((stat) => (
           <Card key={stat.title}>
@@ -281,7 +263,6 @@ export function Dashboard() {
           </Card>
         ))}
       </div>
-      
       <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <CardHeader>
@@ -352,7 +333,6 @@ export function Dashboard() {
             </CardFooter>
          </Card>
       </div>
-      
       <Card>
           <CardHeader>
             <CardTitle>Recent Credentials</CardTitle>
@@ -372,9 +352,12 @@ export function Dashboard() {
               </Button>
           </CardFooter>
         </Card>
-
        <Card>
         <CardHeader>
+        <CardDescription className="flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-warning" />
+          Loggin: OFF
+        </CardDescription>
           <CardTitle>Recent Activity</CardTitle>
           <CardDescription>
             A log of the last 5 credential-related activities.

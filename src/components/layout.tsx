@@ -32,6 +32,8 @@ import {
   LayoutDashboard,
   ShieldCheck,
   CreditCard,
+  Landmark,
+  FileType,
   Settings,
   FileBadge,
   Users,
@@ -39,6 +41,7 @@ import {
   QrCode,
   ClipboardList,
   ListChecks,
+  List,
   Code,
   Download,
 } from "lucide-react";
@@ -50,10 +53,13 @@ import { AddVerificationTemplateDialog } from "./add-verification-template-dialo
 const menuItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/credentials", label: "Credentials Issued", icon: CreditCard },
-  { href: "/credentials-verification", label: "Verification", icon: ShieldCheck },
   { href: "/credential-issuance", label: "Issuance", icon: CreditCard },
+  { href: "/credentials-verification", label: "Verification", icon: ShieldCheck },
+  { href: "/issuing-authority", label: "Issuing Authority", icon: Landmark},
+  { href: "/credential-types", label: "Credential Types", icon: FileType },
   { href: "/credential-templates", label: "Policy Templates", icon: ClipboardList },
-  { href: "/status-list", label: "Status List", icon: ListChecks },
+  { href: "/status-list", label: "Status Lists", icon: ListChecks },
+  { href: "/trusted-list", label: "Trusted Lists", icon: List },
   { href: "/trust-policies", label: "Trust Policies", icon: FileBadge },
   { href: "/activity", label: "Activity", icon: History },
   { href: "/users", label: "Users", icon: Users },
@@ -120,7 +126,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                 />
               </g>
             </svg>
-            <h1 className="text-xl font-semibold">VC SANDBOX</h1>
+            <h1 className="text-xl font-semibold">DC SANDBOX</h1>
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -185,9 +191,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </main>
         <footer className="mt-auto p-6 text-center text-sm text-muted-foreground">
-             &copy; {new Date().getFullYear()} Interfase. All Rights Reserved.
+             &copy; {new Date().getFullYear()} Powered by Entrust. All Rights Reserved.
              <span className="mx-2">|</span>
-             <Link href="/about" className="hover:underline">About VC Sandbox</Link>
+             <Link href="/about" className="hover:underline">About DC Sandbox</Link>
         </footer>
       </SidebarInset>
       <AddCredentialTemplateDialog open={isAddTemplateOpen} onOpenChange={setIsAddTemplateOpen} />

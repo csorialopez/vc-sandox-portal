@@ -243,7 +243,7 @@ export function CredentialsList() {
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>Type</TableHead>
+              <TableHead>Credential Type</TableHead>
               <TableHead>Format</TableHead>
               <TableHead>Issuing Authority</TableHead>
               <TableHead>Issuance Date</TableHead>
@@ -282,7 +282,7 @@ export function CredentialsList() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onSelect={() => handleViewCredential(credential.id)} disabled={credential.format === "mdoc"}>
-                        View Credential
+                        View Raw Credential
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="text-destructive"
@@ -373,6 +373,7 @@ export function CredentialsList() {
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently revoke the credential
                 with ID <span className="font-mono font-bold">{credentialToRevoke?.id}</span>.
+                <br/><br/>Note: The status change for this credential will be propagated to the following list: -Status_List_Example_Name-
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>

@@ -43,7 +43,7 @@ export function EncodedCredentialDialog({
         <DialogHeader>
           <DialogTitle>View Credential</DialogTitle>
           <DialogDescription>
-            This is the raw encoded SD-JWT credential.
+            This is the raw encoded credential.
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">

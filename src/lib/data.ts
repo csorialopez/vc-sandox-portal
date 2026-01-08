@@ -264,9 +264,9 @@ export const credentialsListData: CredentialListItem[] = [
   
   export const dashboardStats = [
     {
-      title: "Total Users",
+      title: "User Holders",
       value: "15",
-      description: "Managed users in the system",
+      description: "Managed user holders in the system",
       icon: Users,
     },
     {
@@ -276,7 +276,7 @@ export const credentialsListData: CredentialListItem[] = [
       icon: Fingerprint,
     },
     {
-      title: "Total Credential Templates",
+      title: "Templates",
       value: "5",
       description: "Available credential templates",
       icon: ClipboardList,

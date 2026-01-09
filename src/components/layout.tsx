@@ -52,7 +52,7 @@ import { AddVerificationTemplateDialog } from "./add-verification-template-dialo
 import { useAuth } from "@/context/auth-context";
 
 const menuItems = [
-  { href: "/", label: "Dashboard test", icon: LayoutDashboard },
+  { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/credentials", label: "Credentials Issued", icon: CreditCard },
   { href: "/credential-issuance", label: "Issuance", icon: CreditCard },
   { href: "/credentials-verification", label: "Verification", icon: ShieldCheck },

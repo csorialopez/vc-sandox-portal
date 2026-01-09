@@ -49,6 +49,7 @@ import { cn } from "@/lib/utils";
 import { AddCredentialTemplateDialog } from "./add-credential-template-dialog";
 import { ReceiveCredentialDialog } from "./receive-credential-dialog";
 import { AddVerificationTemplateDialog } from "./add-verification-template-dialog";
+import { useAuth } from "@/context/auth-context";
 
 const menuItems = [
   { href: "/", label: "Dashboard test", icon: LayoutDashboard },
@@ -72,9 +73,15 @@ const secondaryMenuItems = [
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { isAuthenticated } = useAuth();
   const [isAddTemplateOpen, setIsAddTemplateOpen] = React.useState(false);
   const [isReceiveCredentialOpen, setIsReceiveCredentialOpen] = React.useState(false);
   const [isAddVerificationTemplateOpen, setIsAddVerificationTemplateOpen] = React.useState(false);
+
+  // Don't show the layout if user is not authenticated (they'll see login page)
+  if (!isAuthenticated) {
+    return <>{children}</>;
+  }
 
   return (
     <SidebarProvider>
@@ -204,6 +211,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
 }
 
 function UserMenu() {
+  const { logout } = useAuth();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -223,7 +232,7 @@ function UserMenu() {
         <DropdownMenuItem>Settings</DropdownMenuItem>
         <DropdownMenuItem>Support</DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

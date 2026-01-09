@@ -17,26 +17,61 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { credentialTemplatesData } from "@/lib/data";
+import { credentialsData, type SupportedFormat } from "@/lib/data";
 import { Button } from "./ui/button";
-import { FileCheck, FilePlus, Search } from "lucide-react";
+import { FileCheck, FilePlus, MoreHorizontal, Search } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { AddCredentialTemplateDialog } from "./add-credential-template-dialog";
 import { AddVerificationTemplateDialog } from "./add-verification-template-dialog";
+
+// Helper function to format the format string
+function formatFormat(format: SupportedFormat): string {
+  debugger
+  if (format === "mso_mdoc") return "MDOC";
+  if (format === "dc+sd-jwt") return "SD-JWT";
+  return format;
+}
 
 export function CredentialTypesList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddIssuanceOpen, setIsAddIssuanceOpen] = useState(false);
   const [isAddVerificationOpen, setIsAddVerificationOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-
-  const filteredTypes = credentialTemplatesData.filter(
-    (type) =>
-      type.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      type.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      type.format.toLowerCase().includes(searchTerm.toLowerCase())
+  // Expand credentials data to show one row per credential type and format combination
+  const credentialTypesList = credentialsData.flatMap((credential) =>
+    credential.supportedFormats.map((format) => ({
+      id: `${credential.id}-${format}`,
+      credentialName: credential.name,
+      technicalName: credential.id,
+      format: format,
+    }))
   );
+
+  const filteredTypes = credentialTypesList.filter(
+    (type) =>
+      type.credentialName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      type.technicalName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      formatFormat(type.format).toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleCredTypeDetails = () => {
+    setIsDialogOpen(true);
+  }
 
   return (
     <>
@@ -63,9 +98,9 @@ export function CredentialTypesList() {
               A list of all credential types in the system.
             </CardDescription>
             <div className="relative pt-2">
-              <Search className="absolute left-2.5 top-4.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-4.5 h-10 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search templates..."
+                placeholder="Search credential types..."
                 className="pl-8"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -79,28 +114,49 @@ export function CredentialTypesList() {
                   <TableHead>Credential Name</TableHead>
                   <TableHead>Credential Type(Schema ID)</TableHead>
                   <TableHead>Format</TableHead>
-                  <TableHead>Created Date</TableHead>
+                  <TableHead>Owner</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredTypes.map((type) => (
                   <TableRow key={type.id}>
-                    <TableCell className="font-medium">{type.name}</TableCell>
+                    <TableCell className="font-medium">{type.credentialName}</TableCell>
+                    <TableCell className="font-mono text-sm">{type.technicalName}</TableCell>
                     <TableCell>
-                      <Badge variant={type.type === 'Issuance' ? 'default' : 'secondary'}>
-                        {type.type}
-                      </Badge>
+                      <Badge variant="outline">{formatFormat(type.format)}</Badge>
                     </TableCell>
+                    <TableCell>Default</TableCell>
                     <TableCell>
-                      <Badge variant="outline">{type.format}</Badge>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0" >
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onSelect={handleCredTypeDetails} >
+                            View Credential Type
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </TableCell>
-                    <TableCell>{type.createdAt}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </CardContent>
         </Card>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>View Credential Type details</DialogTitle>
+              <DialogDescription>
+                Work in progress.
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
       <AddCredentialTemplateDialog open={isAddIssuanceOpen} onOpenChange={setIsAddIssuanceOpen} />
       <AddVerificationTemplateDialog open={isAddVerificationOpen} onOpenChange={setIsAddVerificationOpen} />

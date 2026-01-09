@@ -118,7 +118,7 @@ export function SdJwtDebugger() {
                 <CardTitle>Decoded Header</CardTitle>
               </CardHeader>
               <CardContent>
-                <pre className="text-sm bg-muted p-4 rounded-md font-code break-all">
+                <pre className="text-sm bg-muted p-4 rounded-md font-code break-all overflow-x-auto">
                   {JSON.stringify(decodedJwt.header, null, 2)}
                 </pre>
               </CardContent>
@@ -129,7 +129,7 @@ export function SdJwtDebugger() {
                 <CardTitle>Decoded Payload</CardTitle>
               </CardHeader>
               <CardContent>
-                <pre className="text-sm bg-muted p-4 rounded-md font-code break-all">
+                <pre className="text-sm bg-muted p-4 rounded-md font-code break-all overflow-x-auto">
                   {JSON.stringify(decodedJwt.payload, null, 2)}
                 </pre>
               </CardContent>
@@ -143,7 +143,7 @@ export function SdJwtDebugger() {
                 {decodedJwt.disclosures.map((disc, index) => (
                   <div key={index} className="border p-4 rounded-md">
                      <h4 className="font-semibold mb-2">Disclosure #{index + 1}</h4>
-                     <pre className="text-sm bg-muted p-4 rounded-md font-code break-all">
+                     <pre className="text-sm bg-muted p-4 rounded-md font-code break-all overflow-x-auto">
                         {JSON.stringify(disc, null, 2)}
                     </pre>
                   </div>

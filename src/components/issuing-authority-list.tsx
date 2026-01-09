@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -16,26 +16,97 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { credentialTemplatesData } from "@/lib/data";
 import { Button } from "./ui/button";
-import { FileCheck, FilePlus, Search } from "lucide-react";
+import { FileCheck, FilePlus, MoreHorizontal, Search } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { AddCredentialTemplateDialog } from "./add-credential-template-dialog";
 import { AddVerificationTemplateDialog } from "./add-verification-template-dialog";
+import { useSettings } from "@/context/settings-context";
+import { getCredentialTypeAlias } from "@/lib/data";
+
+interface CredentialListItem {
+  id: number;
+  fullName: string | null;
+  credentialType: string;
+  format: string;
+  issuingAuthority: string;
+  issueDate: string;
+  expiryDate: string;
+  status: string;
+}
+
+const PAGE_SIZE = 20;
 
 export function IssuingAuthorityList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddIssuanceOpen, setIsAddIssuanceOpen] = useState(false);
   const [isAddVerificationOpen, setIsAddVerificationOpen] = useState(false);
+  const [isPropDialogOpen, setIsPropDialogOpen] = useState(false);
+  const [isCSCDialogOpen, setIsCSCDialogOpen] = useState(false);
+  const [data, setData] = useState<CredentialListItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [totalElements, setTotalElements] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const { userDataVisible } = useSettings();
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/status-list?page=${currentPage - 1}&size=${PAGE_SIZE}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+      const result = await response.json();
+      if (result && Array.isArray(result.content)) {
+        setData(result.content);
+        setTotalElements(result.totalElements || 0);
+      } else {
+        setData([]);
+        setTotalElements(0);
+        console.warn("API did not return an array in result.content:", result);
+      }
+    } catch (err: any) {
+      setError(err.message);
+      console.error("Fetch error:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, [currentPage]);
 
 
-  const filteredTemplates = credentialTemplatesData.filter(
-    (template) =>
-      template.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      template.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      template.format.toLowerCase().includes(searchTerm.toLowerCase())
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const filteredCredentials = data.filter((credential) =>
+    (userDataVisible && credential.fullName ? credential.fullName.toLowerCase() : "").includes(searchTerm.toLowerCase()) ||
+    getCredentialTypeAlias(credential.credentialType).toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handlePropDetails = () => {
+    setIsPropDialogOpen(true);
+  };
+
+  const handleCredSignCert = () => {
+    setIsCSCDialogOpen(true);
+  }
 
   return (
     <>
@@ -57,14 +128,14 @@ export function IssuingAuthorityList() {
         </div>
         <Card>
           <CardHeader>
-            <CardTitle>All Templates</CardTitle>
+            <CardTitle>All Issuers</CardTitle>
             <CardDescription>
               A list of all credential templates in the system.
             </CardDescription>
             <div className="relative pt-2">
-              <Search className="absolute left-2.5 top-4.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-4.5 h-10 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search templates..."
+                placeholder="Search issuers..."
                 className="pl-8"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -78,24 +149,70 @@ export function IssuingAuthorityList() {
                   <TableHead>Issuer Name</TableHead>
                   <TableHead>Type</TableHead>
                   <TableHead>Properties</TableHead>
-									<TableHead>Credential Signer Certificate</TableHead>
-                  <TableHead>Created Date</TableHead>
+                  <TableHead>Credential Signer Certificate</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredTemplates.map((template) => (
-                  <TableRow key={template.id}>
-                    <TableCell className="font-medium">{template.name}</TableCell>
+                {filteredCredentials.map((credential) => (
+                  <TableRow key={credential.id}>
+                    <TableCell className="font-medium">{credential.issuingAuthority}</TableCell>
                     <TableCell>Default</TableCell>
-                    <TableCell>...</TableCell>
-										<TableCell>...</TableCell>
-                    <TableCell>{template.createdAt}</TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0">
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onSelect={handlePropDetails}>
+                            View Properties
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" className="h-8 w-8 p-0" >
+                            <span className="sr-only">Open menu</span>
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onSelect={handleCredSignCert} >
+                            View Credential Signer Certificate
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </CardContent>
         </Card>
+        <Dialog open={isPropDialogOpen} onOpenChange={setIsPropDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>View Properties details</DialogTitle>
+              <DialogDescription>
+                Work in progress.
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+        <Dialog open={isCSCDialogOpen} onOpenChange={setIsCSCDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>View Credential Signer Certificate's details</DialogTitle>
+              <DialogDescription>
+                Work in progress.
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
       <AddCredentialTemplateDialog open={isAddIssuanceOpen} onOpenChange={setIsAddIssuanceOpen} />
       <AddVerificationTemplateDialog open={isAddVerificationOpen} onOpenChange={setIsAddVerificationOpen} />

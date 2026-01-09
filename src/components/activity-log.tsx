@@ -91,7 +91,7 @@ export function ActivityLog() {
             A log of recent credential-related activities in the system.
           </CardDescription>
           <div className="relative pt-2">
-            <Search className="absolute left-2.5 top-4.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-4.5 h-10 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by event or credential..."
               className="pl-8"

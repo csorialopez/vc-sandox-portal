@@ -196,7 +196,7 @@ export function StatusList() {
             A list of all credentials and their current status.
           </CardDescription>
           <div className="relative pt-2">
-            <Search className="absolute left-2.5 top-4.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-4.5 h-10 w-4 text-muted-foreground" />
             <Input
               placeholder="Search by ID, credential type, or status..."
               className="pl-8"

@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { AppLayout } from '@/components/layout';
 import { SettingsProvider } from '@/context/settings-context';
+import { AuthProvider } from '@/context/auth-context';
 
 export const metadata: Metadata = {
   title: 'DC SANDBOX',
@@ -23,11 +24,13 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <SettingsProvider>
-          <AppLayout>
-            {children}
-          </AppLayout>
-        </SettingsProvider>
+        <AuthProvider>
+          <SettingsProvider>
+            <AppLayout>
+              {children}
+            </AppLayout>
+          </SettingsProvider>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>

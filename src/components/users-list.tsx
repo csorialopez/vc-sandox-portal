@@ -51,7 +51,7 @@ export function UsersList() {
             A list of all users in the system.
           </p>
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-2.5 h-6 w-4 text-muted-foreground" />
             <Input
               placeholder="Search users by name..."
               className="pl-8"

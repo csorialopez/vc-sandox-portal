@@ -95,9 +95,13 @@ export function IssuingAuthorityList() {
     fetchData();
   }, [fetchData]);
 
-  const filteredCredentials = data.filter((credential) =>
-    (userDataVisible && credential.fullName ? credential.fullName.toLowerCase() : "").includes(searchTerm.toLowerCase()) ||
-    getCredentialTypeAlias(credential.credentialType).toLowerCase().includes(searchTerm.toLowerCase())
+  // Get unique issuing authorities (take first occurrence of each)
+  const uniqueIssuingAuthorities = Array.from(
+    new Map(data.map((credential) => [credential.issuingAuthority, credential])).values()
+  );
+
+  const filteredCredentials = uniqueIssuingAuthorities.filter((credential) =>
+    credential.issuingAuthority.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handlePropDetails = () => {
@@ -197,10 +201,21 @@ export function IssuingAuthorityList() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>View Properties details</DialogTitle>
-              <DialogDescription>
-                Work in progress.
-              </DialogDescription>
             </DialogHeader>
+            <div className="space-y-2 py-4">
+              <div className="flex items-center">
+                <span className="font-medium">Active:</span>
+                <span className="text-muted-foreground">Yes</span>
+              </div>
+              <div className="flex items-center">
+                <span className="font-medium">Test:</span>
+                <span className="text-muted-foreground">Default</span>
+              </div>
+              <div className="flex items-center">
+                <span className="font-medium">Test2:</span>
+                <span className="text-muted-foreground">Default</span>
+              </div>
+            </div>
           </DialogContent>
         </Dialog>
         <Dialog open={isCSCDialogOpen} onOpenChange={setIsCSCDialogOpen}>

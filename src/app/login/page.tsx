@@ -77,17 +77,17 @@ export default function LoginPage() {
           </div>
           <CardTitle className="text-2xl text-center">DC SANDBOX</CardTitle>
           <CardDescription className="text-center">
-            Ingresa tus credenciales para continuar
+            Enter your credentials to continue
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="username">Usuario</Label>
+              <Label htmlFor="username">User</Label>
               <Input
                 id="username"
                 type="text"
-                placeholder="Usuario"
+                placeholder="User"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -95,11 +95,11 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
                 type="password"
-                placeholder="Contraseña"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
@@ -112,7 +112,7 @@ export default function LoginPage() {
               </div>
             )}
             <Button type="submit" className="w-full">
-              Iniciar Sesión
+              Login
             </Button>
           </form>
         </CardContent>

@@ -222,7 +222,7 @@ function UserMenu() {
           className="overflow-hidden rounded-full"
         >
           <Avatar>
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback>I</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>

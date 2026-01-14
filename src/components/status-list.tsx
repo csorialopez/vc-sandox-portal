@@ -46,6 +46,7 @@ interface StatusListItem {
   status: "ACTIVE" | "revoked" | string;
   statusList: {
     id: string;
+    statusListUri: string;
   };
 }
 
@@ -59,6 +60,7 @@ export function StatusList() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedCredential, setSelectedCredential] = useState<StatusListItem | null>(null);
 
   useEffect(() => {
     async function fetchData() {
@@ -105,7 +107,8 @@ export function StatusList() {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
-  const handleViewDetails = () => {
+  const handleViewDetails = (credential: StatusListItem) => {
+    setSelectedCredential(credential);
     setIsDialogOpen(true);
   };
 
@@ -171,7 +174,7 @@ export function StatusList() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onSelect={() => handleViewDetails()}>
+                      <DropdownMenuItem onSelect={() => handleViewDetails(credential)}>
                         View Details
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -246,7 +249,7 @@ export function StatusList() {
           <DialogHeader>
             <DialogTitle>View Status List Details</DialogTitle>
             <DialogDescription>
-              Status list details will be displayed here.
+              {selectedCredential?.statusList?.statusListUri || "No status list URI available"}
             </DialogDescription>
           </DialogHeader>
         </DialogContent>

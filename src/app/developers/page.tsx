@@ -14,11 +14,11 @@ export default function DevelopersPage() {
         Developers
       </h1>
       <div className="space-y-8">
-      <Card className="max-w-2xl">
+        <Card className="max-w-2xl">
           <CardHeader>
             <CardTitle>How to manage issuers</CardTitle>
             <CardDescription>
-              Description.
+              Guides and resources to manage issuers.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center py-6">
@@ -29,7 +29,7 @@ export default function DevelopersPage() {
           <CardHeader>
             <CardTitle>How to manage credential types</CardTitle>
             <CardDescription>
-              Description.
+              Guides and resources to manage credential types.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center py-6">
@@ -51,7 +51,7 @@ export default function DevelopersPage() {
           <CardHeader>
             <CardTitle>How to manage credential status</CardTitle>
             <CardDescription>
-              Description.
+              Guides and resources to manage credential status.
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-center py-6">
@@ -158,7 +158,7 @@ export default function DevelopersPage() {
               </DialogContent>
             </Dialog>
           </CardContent>
-        </Card>  
+        </Card>
         <Card className="max-w-2xl">
           <CardHeader>
             <CardTitle>SD-JWT VC credentials Debugger</CardTitle>
@@ -181,11 +181,17 @@ export default function DevelopersPage() {
           <CardHeader>
             <CardTitle>mDOC and mDL credentials Debugger</CardTitle>
             <CardDescription>
-              Work in Progress
+              Decode and inspect the contents of a mDOC/mDL verifiable credential.
             </CardDescription>
           </CardHeader>
-          <CardContent className="flex items-center justify-center py-6">
-            <Badge variant="outline">Work in Progress</Badge>
+          <CardContent>
+            <Button asChild>
+              <Link href="/developers/mdoc-debugger">
+                <FileJson className="mr-2 h-4 w-4" />
+                Open Debugger
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       </div>

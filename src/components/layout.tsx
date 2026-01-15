@@ -60,7 +60,7 @@ const menuItems = [
   { href: "/credential-types", label: "Credential Types", icon: FileType },
   { href: "/credential-templates", label: "Policy Templates", icon: ClipboardList },
   { href: "/status-list", label: "Status Lists", icon: ListChecks },
-  { href: "/trusted-list", label: "Trusted Lists", icon: List },
+  { href: "/trust-sources", label: "Trust Sources", icon: List },
   { href: "/trust-policies", label: "Trust Policies", icon: FileBadge },
   { href: "/activity", label: "Activity", icon: History },
   { href: "/users", label: "Users", icon: Users },

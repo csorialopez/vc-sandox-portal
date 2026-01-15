@@ -202,28 +202,95 @@ export function IssuingAuthorityList() {
             <DialogHeader>
               <DialogTitle>View Properties details</DialogTitle>
             </DialogHeader>
-            <div className="space-y-2 py-4">
-              <div className="flex items-center">
-                <span className="font-medium">Active:</span>
-                <span className="text-muted-foreground">Yes</span>
+            <DialogDescription>
+              <div className="space-y-2 py-4">
+                <div className="flex items-center">
+                  <span className="font-semibold">Active:</span>
+                  <span className="ml-2">Yes</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="font-semibold">Allowed policies:</span>
+                  <span className="ml-2">All</span>
+                </div>
+                <div className="flex items-center">
+                  <span className="font-semibold">Description:</span>
+                  <span className="ml-2">None</span>
+                </div>
               </div>
-              <div className="flex items-center">
-                <span className="font-medium">Test:</span>
-                <span className="text-muted-foreground">Default</span>
-              </div>
-              <div className="flex items-center">
-                <span className="font-medium">Test2:</span>
-                <span className="text-muted-foreground">Default</span>
-              </div>
-            </div>
+            </DialogDescription>
           </DialogContent>
         </Dialog>
         <Dialog open={isCSCDialogOpen} onOpenChange={setIsCSCDialogOpen}>
-          <DialogContent>
+          <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>View Credential Signer Certificate's details</DialogTitle>
               <DialogDescription>
-                Work in progress.
+                <div className="space-y-2 py-4">
+                  <div className="flex items-center">
+                    <span className="font-semibold">Internal name:</span>
+                    <span className="ml-2">PID DS - 0003</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="font-semibold">Description:</span>
+                    <span className="ml-2">Document & Certificate Signer</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="font-semibold">Valid until:</span>
+                    <span className="ml-2">January 27, 2028</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="font-semibold">Subject:</span>
+                    <span className="ml-2">CN=PID DS - 0003,O=interfase,C=UT</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold">Public key:</span>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">Type:</span>
+                      <span className="ml-2">EC key</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">Curve name:</span>
+                      <span className="ml-2">prime256v1</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">Key size:</span>
+                      <span className="ml-2">256bit</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">Private key:</span>
+                      <span className="ml-2">Not available</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="font-semibold">Issuer:</span>
+                    <span className="ml-2">CN=PID Issuer CA - UT,O=Digital Wallet,C=UT</span>
+                  </div>
+                  <div>
+                    <span className="font-semibold">X509v3 CRL Distribution Points:</span>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">URI:</span>
+                      <span className="ml-2">https://issuer.interfase.uy/crl/PIDIssuerCAUT.crl</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="font-semibold">X509v3 Issuer Alternative Name:</span>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">URI:</span>
+                      <span className="ml-2">http://example.com</span>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="font-semibold">X509v3 Subject Alternative Name:</span>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">DNS:</span>
+                      <span className="ml-2">issuer.interfase.uy</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="ml-4 font-semibold">URI:</span>
+                      <span className="ml-2">https://issuer.interfase.uy</span>
+                    </div>
+                  </div>
+                </div>
               </DialogDescription>
             </DialogHeader>
           </DialogContent>

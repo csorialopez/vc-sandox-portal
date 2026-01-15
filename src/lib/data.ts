@@ -28,6 +28,7 @@ export const credentialTypeAliases: Record<string, string> = {
   "uy.interfase.student.1": "Student Diploma",
   "eu.europa.ec.eudi.iban.1": "IBAN",
   "urn:org.caricom.csme:skills:1": "CSME Skills Certificate",
+  "urn:uy:interfase:diploma:1": "Academic Diploma",
 };
 
 export function getCredentialTypeAlias(type: string): string {

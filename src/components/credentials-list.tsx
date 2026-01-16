@@ -1,32 +1,13 @@
-
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardFooter,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { MoreHorizontal, Search, ChevronLeft, ChevronRight, EyeOff, Loader2, AlertTriangle, User } from "lucide-react";
 import { Button } from "./ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -101,7 +82,6 @@ export function CredentialsList() {
     }
   }, [currentPage]);
 
-
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -130,7 +110,7 @@ export function CredentialsList() {
   const openRevokeDialog = (credential: CredentialListItem) => {
     setCredentialToRevoke(credential);
     setIsRevokeAlertOpen(true);
-  }
+  };
 
   const handleRevokeCredential = async () => {
     if (!credentialToRevoke) return;
@@ -138,9 +118,9 @@ export function CredentialsList() {
     setIsRevoking(true);
     try {
       const response = await fetch(`/api/status-list/v1/${credentialToRevoke.id}/revoke`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
 
@@ -154,10 +134,7 @@ export function CredentialsList() {
         description: `Credential with ID ${credentialToRevoke.id} has been revoked.`,
       });
 
-      setData(prevData => prevData.map(cred =>
-        cred.id === credentialToRevoke.id ? { ...cred, status: 'revoked' } : cred
-      ));
-
+      setData((prevData) => prevData.map((cred) => (cred.id === credentialToRevoke.id ? { ...cred, status: "revoked" } : cred)));
     } catch (err: any) {
       toast({
         variant: "destructive",
@@ -171,9 +148,10 @@ export function CredentialsList() {
     }
   };
 
-  const filteredCredentials = data.filter((credential) =>
-    (userDataVisible && credential.fullName ? credential.fullName.toLowerCase() : "").includes(searchTerm.toLowerCase()) ||
-    getCredentialTypeAlias(credential.credentialType).toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredCredentials = data.filter(
+    (credential) =>
+      (userDataVisible && credential.fullName ? credential.fullName.toLowerCase() : "").includes(searchTerm.toLowerCase()) ||
+      getCredentialTypeAlias(credential.credentialType).toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalPages = Math.ceil(totalElements / PAGE_SIZE);
@@ -197,19 +175,20 @@ export function CredentialsList() {
     }
 
     if (credential.fullName) {
-      const initials = credential.fullName.split(' ').map(n => n[0]).join('');
+      const initials = credential.fullName
+        .split(" ")
+        .map((n) => n[0])
+        .join("");
       return (
         <div className="flex items-center gap-3">
           <Avatar className="h-9 w-9">
-            <AvatarFallback>
-              {initials || <User className="w-4 h-4" />}
-            </AvatarFallback>
+            <AvatarFallback>{initials || <User className="w-4 h-4" />}</AvatarFallback>
           </Avatar>
           <div className="grid gap-0.5">
             <div className="font-medium">{credential.fullName}</div>
           </div>
         </div>
-      )
+      );
     }
 
     return (
@@ -218,7 +197,7 @@ export function CredentialsList() {
         <span>Not available</span>
       </div>
     );
-  }
+  };
 
   const renderContent = () => {
     if (loading) {
@@ -236,7 +215,7 @@ export function CredentialsList() {
           <p className="font-semibold">Error loading data</p>
           <p className="text-sm">{error}</p>
         </div>
-      )
+      );
     }
 
     return (
@@ -258,9 +237,7 @@ export function CredentialsList() {
         <TableBody>
           {filteredCredentials.map((credential) => (
             <TableRow key={credential.id}>
-              <TableCell>
-                {renderUserCell(credential)}
-              </TableCell>
+              <TableCell>{renderUserCell(credential)}</TableCell>
               <TableCell>
                 <Badge variant="secondary">{getCredentialTypeAlias(credential.credentialType)}</Badge>
               </TableCell>
@@ -269,9 +246,7 @@ export function CredentialsList() {
               <TableCell>{format(new Date(credential.issueDate), "yyyy-MM-dd")}</TableCell>
               <TableCell>{format(new Date(credential.expiryDate), "yyyy-MM-dd")}</TableCell>
               <TableCell>
-                <Badge variant={credential.status?.toLowerCase() === 'active' ? 'default' : 'destructive'}>
-                  {credential.status || 'UNKNOWN'}
-                </Badge>
+                <Badge variant={credential.status?.toLowerCase() === "active" ? "default" : "destructive"}>{credential.status || "UNKNOWN"}</Badge>
               </TableCell>
               <TableCell>
                 <DropdownMenu>
@@ -288,10 +263,11 @@ export function CredentialsList() {
                     <DropdownMenuItem
                       className="text-destructive"
                       onSelect={() => openRevokeDialog(credential)}
-                      disabled={credential.status?.toLowerCase() === 'revoked'}
+                      disabled={credential.status?.toLowerCase() === "revoked"}
                     >
                       Revoke
                     </DropdownMenuItem>
+                    <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
@@ -300,7 +276,7 @@ export function CredentialsList() {
         </TableBody>
       </Table>
     );
-  }
+  };
 
   return (
     <>
@@ -311,9 +287,7 @@ export function CredentialsList() {
         <Card>
           <CardHeader>
             <CardTitle>All Credentials</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              A list of all credentials in the system.
-            </p>
+            <p className="text-sm text-muted-foreground">A list of all credentials in the system.</p>
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-6 w-4 text-muted-foreground" />
               <Input
@@ -325,9 +299,7 @@ export function CredentialsList() {
               />
             </div>
           </CardHeader>
-          <CardContent>
-            {renderContent()}
-          </CardContent>
+          <CardContent>{renderContent()}</CardContent>
           {!loading && !error && data.length > 0 && (
             <CardFooter className="flex items-center justify-between">
               <div className="text-sm text-muted-foreground">
@@ -338,21 +310,11 @@ export function CredentialsList() {
                 of <strong>{totalElements}</strong> credentials
               </div>
               <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handlePreviousPage}
-                  disabled={currentPage === 1}
-                >
+                <Button variant="outline" size="sm" onClick={handlePreviousPage} disabled={currentPage === 1}>
                   <ChevronLeft className="h-4 w-4" />
                   Previous
                 </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleNextPage}
-                  disabled={currentPage >= totalPages}
-                >
+                <Button variant="outline" size="sm" onClick={handleNextPage} disabled={currentPage >= totalPages}>
                   Next
                   <ChevronRight className="h-4 w-4" />
                 </Button>
@@ -361,19 +323,18 @@ export function CredentialsList() {
           )}
         </Card>
       </div>
-      <EncodedCredentialDialog
-        open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
-        encodedCredential={encodedCredential}
-      />
+      <EncodedCredentialDialog open={isDialogOpen} onOpenChange={setIsDialogOpen} encodedCredential={encodedCredential} />
       <AlertDialog open={isRevokeAlertOpen} onOpenChange={setIsRevokeAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently revoke the credential
-              with ID <span className="font-mono font-bold">{credentialToRevoke?.id}</span>.
-              <br /><br />Note: The status change for this credential will be propagated to the following list: {credentialToRevoke?.statusList?.statusListUri || "No status list URI available"}
+              This action cannot be undone. This will permanently revoke the credential with ID{" "}
+              <span className="font-mono font-bold">{credentialToRevoke?.id}</span>.
+              <br />
+              <br />
+              Note: The status change for this credential will be propagated to the following list:{" "}
+              {credentialToRevoke?.statusList?.statusListUri || "No status list URI available"}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

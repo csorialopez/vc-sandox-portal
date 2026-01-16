@@ -57,7 +57,7 @@ const TRUST_SOURCES_DATA: TrustSourcesItem[] = [
 	},
 ];
 
-export function TrustSources() {
+export function TrustRoots() {
 	const [data, setData] = useState<TrustSourcesItem[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
@@ -152,7 +152,7 @@ export function TrustSources() {
 	return (
 		<div className="w-full max-w-7xl mx-auto space-y-8 p-4 md:p-8">
 			<div className="flex items-center justify-between space-y-2">
-				<h2 className="text-3xl font-bold tracking-tight">Trust Sources</h2>
+				<h2 className="text-3xl font-bold tracking-tight">Trust Roots</h2>
 			</div>
 			<Card>
 				<CardHeader>
@@ -181,7 +181,7 @@ export function TrustSources() {
 							<strong>
 								{Math.min((currentPage - 1) * PAGE_SIZE + 1, totalElements)} - {Math.min(currentPage * PAGE_SIZE, totalElements)}
 							</strong>{" "}
-							of <strong>{totalElements}</strong> credentials
+							of <strong>{totalElements}</strong> trust sources
 						</div>
 						<div className="flex items-center gap-2">
 							<Button

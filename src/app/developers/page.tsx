@@ -16,6 +16,40 @@ export default function DevelopersPage() {
       <div className="space-y-8">
         <Card className="max-w-2xl">
           <CardHeader>
+            <CardTitle>mDOC and mDL credentials Debugger</CardTitle>
+            <CardDescription>
+              Decode and inspect the contents of a mDOC/mDL verifiable credential.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild>
+              <Link href="/developers/mdoc-debugger">
+                <FileJson className="mr-2 h-4 w-4" />
+                Open Debugger
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className="max-w-2xl">
+          <CardHeader>
+            <CardTitle>SD-JWT VC credentials Debugger</CardTitle>
+            <CardDescription>
+              Decode and inspect the contents of a SD-JWT verifiable credential.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild>
+              <Link href="/developers/sd-jwt-debugger">
+                <FileJson className="mr-2 h-4 w-4" />
+                Open Debugger
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className="max-w-2xl">
+          <CardHeader>
             <CardTitle>How to manage issuers</CardTitle>
             <CardDescription>
               Guides and resources to manage issuers.
@@ -157,41 +191,6 @@ export default function DevelopersPage() {
                 </div>
               </DialogContent>
             </Dialog>
-          </CardContent>
-        </Card>
-        <Card className="max-w-2xl">
-          <CardHeader>
-            <CardTitle>SD-JWT VC credentials Debugger</CardTitle>
-            <CardDescription>
-              Decode and inspect the contents of a SD-JWT verifiable credential.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild>
-              <Link href="/developers/sd-jwt-debugger">
-                <FileJson className="mr-2 h-4 w-4" />
-                Open Debugger
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="max-w-2xl">
-          <CardHeader>
-            <CardTitle>mDOC and mDL credentials Debugger</CardTitle>
-            <CardDescription>
-              Decode and inspect the contents of a mDOC/mDL verifiable credential.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button asChild>
-              <Link href="/developers/mdoc-debugger">
-                <FileJson className="mr-2 h-4 w-4" />
-                Open Debugger
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
           </CardContent>
         </Card>
       </div>

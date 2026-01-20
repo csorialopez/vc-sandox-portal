@@ -820,12 +820,11 @@ export function CredentialVerifier() {
 
   const isMsoMdocSupported =
     (selectedCredential?.supportedFormats.includes("mso_mdoc") ?? false) &&
-    selectedCredential?.id !== "university_diploma_1";
+    selectedCredential?.id !== "uy.interfase.diploma.credential:1";
 
   const isSdJwtSupported =
     (selectedCredential?.supportedFormats.includes("dc+sd-jwt") ?? false) &&
-    selectedCredential?.id !== "eu.europa.ec.eudi.pid.1" &&
-    selectedCredential?.id !== "university_diploma_1";
+    selectedCredential?.id !== "org.iso.18013.5.1.mDL";
 
   const getAttributeValue = (attributeId: string): string | undefined => {
     if (!verifiedClaims || !selectedCredential) return undefined;

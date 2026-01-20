@@ -1,6 +1,6 @@
 
 import type { LucideIcon } from "lucide-react";
-import { CreditCard, FileText, GraduationCap, Users, Fingerprint, ClipboardList, History } from "lucide-react";
+import { CreditCard, FileText, GraduationCap, Users, Fingerprint, ClipboardList, History, Banknote, Calendar } from "lucide-react";
 
 export interface Attribute {
   id: string;
@@ -29,6 +29,10 @@ export const credentialTypeAliases: Record<string, string> = {
   "eu.europa.ec.eudi.iban.1": "IBAN",
   "urn:org.caricom.csme:skills:1": "CSME Skills Certificate",
   "urn:uy:interfase:diploma:1": "Academic Diploma",
+  "urn:eu.europa.ec.eudi:age_over_18:1": "Age Over 18 Credential",
+  "eu.europa.ec.eudi.iban.1": "EBanking Credential",
+  "uy.interfase.student.credential:1": "Student Credential",
+  "uy.interfase.diploma.credential:1": "Diploma Credential",
 };
 
 export function getCredentialTypeAlias(type: string): string {
@@ -91,6 +95,69 @@ export const credentialsData: VerifiableCredential[] = [
       { id: "dependants", name: "Dependants", description: "Any dependants of the holder." },
       { id: "credential_type", name: "Credential Type", description: "The type of credential." },
       { id: "issuing_authority", name: "Issuing Authority", description: "The issuing authority." },
+    ],
+    supportedFormats: ["dc+sd-jwt"],
+  },
+  {
+    id: "urn:eu.europa.ec.eudi:age_over_18:1",
+    name: "Age Over 18 Credential",
+    issuer: "EU Member State",
+    icon: Calendar,
+    attributes: [
+      { id: "age_over_18", name: "Age Over 18", description: "Boolean indicating if the holder is 18 or older.", sdJwtPath: "age_over_18" },
+      { id: "birth_year", name: "Birth Year", description: "The year of birth.", sdJwtPath: "age_birth_year" },
+      { id: "age_in_years", name: "Age in Years", description: "The age of the holder in years.", sdJwtPath: "age_in_years" },
+    ],
+    supportedFormats: ["mso_mdoc", "dc+sd-jwt"],
+  },
+  {
+    id: "eu.europa.ec.eudi.iban.credential:1",
+    name: "EBanking Credential",
+    issuer: "Bank",
+    icon: Banknote,
+    attributes: [
+      { id: "account_holder_owner", name: "Account Holder Owner", description: "Whether the holder is the account owner." },
+      { id: "iban", name: "IBAN", description: "The International Bank Account Number." },
+      { id: "bic", name: "BIC", description: "The Bank Identifier Code." },
+      { id: "currency", name: "Currency", description: "The account currency." },
+      { id: "bank_account_status", name: "Bank Account Status", description: "The status of the bank account." },
+      { id: "issuing_organization", name: "Issuing Organization", description: "The bank that issued the credential." },
+      { id: "registered_given_name", name: "Registered Given Name", description: "The registered first name." },
+      { id: "registered_family_name", name: "Registered Family Name", description: "The registered last name." },
+    ],
+    supportedFormats: ["mso_mdoc", "dc+sd-jwt"],
+  },
+  {
+    id: "uy.interfase.student.credential:1",
+    name: "Student Credential",
+    issuer: "Educational Institution",
+    icon: GraduationCap,
+    attributes: [
+      { id: "given_name", name: "Given Name", description: "Student's first name." },
+      { id: "family_name", name: "Family Name", description: "Student's last name." },
+      { id: "birthdate", name: "Date of Birth", description: "Student's date of birth." },
+      { id: "student_id", name: "Student ID", description: "Unique student identifier." },
+      { id: "institution_name", name: "Institution Name", description: "Name of the educational institution." },
+      { id: "enrollment_date", name: "Enrollment Date", description: "Date of enrollment." },
+      { id: "program", name: "Program", description: "The study program." },
+      { id: "status", name: "Status", description: "Current enrollment status." },
+    ],
+    supportedFormats: ["mso_mdoc", "dc+sd-jwt"],
+  },
+  {
+    id: "uy.interfase.diploma.credential:1",
+    name: "Diploma Credential",
+    issuer: "Educational Institution",
+    icon: FileText,
+    attributes: [
+      { id: "given_name", name: "Given Name", description: "Holder's first name." },
+      { id: "family_name", name: "Family Name", description: "Holder's last name." },
+      { id: "birthdate", name: "Date of Birth", description: "Holder's date of birth." },
+      { id: "diploma_title", name: "Diploma Title", description: "Title of the diploma." },
+      { id: "institution_name", name: "Institution Name", description: "Name of the issuing institution." },
+      { id: "graduation_date", name: "Graduation Date", description: "Date of graduation." },
+      { id: "diploma_number", name: "Diploma Number", description: "Unique diploma number." },
+      { id: "honors", name: "Honors", description: "Any honors or distinctions." },
     ],
     supportedFormats: ["dc+sd-jwt"],
   }

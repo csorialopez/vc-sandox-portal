@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
         destination: 'https://issuer.interfase.uy/:path*',
       },
       {
+        source: '/api/v1/pre-auth/:path*',
+        destination: 'https://issuer.interfase.uy/api/v1/pre-auth/:path*',
+      },
+      {
         source: '/api/status-list/v1/:id/encoded',
         destination: 'https://midplus.interfase.uy/api/st/v1/:id/encoded',
       },

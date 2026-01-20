@@ -90,59 +90,81 @@ export function CredentialIssuer() {
     }
 
     startTransition(async () => {
-       if (authFlow === "identity-provider" && 
-           ((selectedCredential.id === "eu.europa.ec.eudi.pid.1" && selectedFormat === "mso_mdoc") ||
-            (selectedCredential.id === "org.iso.18013.5.1.mDL" && selectedFormat === 'mso_mdoc'))) {
-        
-        let credentialType = "";
-        if (selectedCredential.id === "eu.europa.ec.eudi.pid.1") {
-            credentialType = "eu.europa.ec.eudi.pid_mdoc";
-        } else if (selectedCredential.id === "org.iso.18013.5.1.mDL") {
-            credentialType = "eu.europa.ec.eudi.mdl_mdoc";
+       // Handle identity provider flow
+       if (authFlow === "identity-provider") {
+        // Map credential ID to API endpoint
+        const endpointMap: Record<string, Record<SupportedFormat, string>> = {
+          "eu.europa.ec.eudi.pid.1": {
+            mso_mdoc: "/api/v1/pre-auth/eu.europa.ec.eudi.pid_mdoc",
+            "dc+sd-jwt": "/api/v1/pre-auth/eu.europa.ec.eudi.pid_sd_jwt_vc"
+          },
+          "org.iso.18013.5.1.mDL": {
+            mso_mdoc: "/api/v1/pre-auth/eu.europa.ec.eudi.mdl_mdoc",
+            "dc+sd-jwt": "/api/v1/pre-auth/eu.europa.ec.eudi.mdl_mdoc" // MDL only supports mdoc
+          },
+          "urn:eu.europa.ec.eudi:age_over_18:1": {
+            mso_mdoc: "/api/v1/pre-auth/eu.europa.ec.eudi.pseudonym_over18_mdoc",
+            "dc+sd-jwt": "/api/v1/pre-auth/eu.europa.ec.eudi.pseudonym_over18_sd_jwt_vc"
+          },
+          "eu.europa.ec.eudi.iban.credential:1": {
+            mso_mdoc: "/api/v1/pre-auth/eu.europa.ec.eudi.iban_mdoc",
+            "dc+sd-jwt": "/api/v1/pre-auth/eu.europa.ec.eudi.iban_sd_jwt_vc"
+          },
+          "uy.interfase.student.credential:1": {
+            mso_mdoc: "/api/v1/pre-auth/uy.interfase.student_mdoc",
+            "dc+sd-jwt": "/api/v1/pre-auth/uy.interfase.student_sd_jwt_vc"
+          },
+          "uy.interfase.diploma.credential:1": {
+            mso_mdoc: "/api/v1/pre-auth/uy.interfase.diploma_mdoc",
+            "dc+sd-jwt": "/api/v1/pre-auth/uy.interfase.diploma_sd_jwt_vc"
+          }
+        };
+
+        const credentialEndpoint = endpointMap[selectedCredential.id]?.[selectedFormat];
+
+        if (!credentialEndpoint) {
+          toast({
+            title: "Issuance Not Supported",
+            description: "This credential type is not yet configured for issuance.",
+            variant: "destructive",
+          });
+          return;
         }
 
-        const requestBody = new URLSearchParams({
-            "credential_offer_URI": "openid-credential-offer://",
-            "Authorization Code Grant": "authorization_code",
-            "credential_a": credentialType,
-            "proceed": "true"
-        });
-
         try {
-            const response = await fetch(`/api/issuer/credential_offer`, {
+            const response = await fetch(credentialEndpoint, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
+                    "Content-Type": "application/json",
                 },
-                body: requestBody.toString(),
+                body: JSON.stringify({}),
             });
 
             if (!response.ok) {
-                const errorText = await response.text();
+                const errorText = await response.statusText;
                 throw new Error(`Failed to create credential offer: ${response.status} ${errorText}`);
             }
 
             const htmlResponse = await response.text();
             
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlResponse, 'text/html');
-            const imgTag = doc.querySelector('img[src^="data:image/png;base64,"]');
-            const qrCodeData = imgTag ? imgTag.getAttribute('src') : null;
+            // Parse JSON response
+            const responseData = JSON.parse(htmlResponse);
+            const offerUri = responseData.url_data;
 
-            const offerLink = doc.querySelector('a[href^="openid-credential-offer://"]');
-            const offerUri = offerLink ? offerLink.getAttribute('href') : null;
-
-            if (qrCodeData && offerUri) {
-                setQrCodeValue(qrCodeData);
-                setCredentialOfferUri(offerUri);
-                setIsQrDialogOpen(true);
-                 toast({
-                    title: "Issuance Offer Created",
-                    description: `Scan the QR code to accept the credential offer.`,
-                });
-            } else {
-                throw new Error("Could not find QR code or offer URI in the response.");
+            if (!offerUri) {
+                throw new Error("Could not find credential offer URI in the response.");
             }
+
+            // Generate QR code from the URL
+            const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(offerUri)}`;
+
+            setQrCodeValue(qrCodeUrl);
+            setCredentialOfferUri(offerUri);
+            setIsQrDialogOpen(true);
+             toast({
+                title: "Issuance Offer Created",
+                description: `Scan the QR code to accept the credential offer.`,
+            });
 
         } catch (error: any) {
             toast({
@@ -152,7 +174,7 @@ export function CredentialIssuer() {
             });
         }
        } else {
-         // Simulate issuance for other credential types
+         // Simulate issuance for pre-authorized flow
          await new Promise(resolve => setTimeout(resolve, 1500));
 
          toast({
@@ -177,8 +199,8 @@ export function CredentialIssuer() {
   const isIdProviderDisabled =
     isPending ||
     selectedCredential?.id === "urn:org.caricom.csme:skills:1" ||
-    (selectedCredential?.id === "eu.europa.ec.eudi.pid.1" &&
-      selectedFormat === "dc+sd-jwt");
+    (selectedCredential?.id === "eu.europa.ec.eudi.pid.1" && selectedFormat === "dc+sd-jwt") ||
+    selectedCredential?.id === "uy.interfase.diploma.credential:1";
 
 
   return (

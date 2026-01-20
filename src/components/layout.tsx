@@ -17,6 +17,7 @@ import {
   SidebarTrigger,
   SidebarInset,
   SidebarSeparator,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -87,54 +88,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <Sidebar>
         <SidebarHeader>
-          <div className="flex items-center gap-2">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 150 150"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <defs>
-                <style>
-                  {".cls-1{fill:none;}.cls-2{fill:#762b8a;}.cls-3{fill:url(#linear-gradient);}"}
-                </style>
-                <linearGradient
-                  id="linear-gradient"
-                  x1="-211.24"
-                  y1="482.2"
-                  x2="-211.24"
-                  y2="478.63"
-                  gradientTransform="matrix(23.21, 0, 0, -26.8, 4978.74, 12949.98)"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop offset="0.2" stopColor="#c6168d" />
-                  <stop offset="0.8" stopColor="#762b8a" />
-                </linearGradient>
-              </defs>
-              <g id="Layer_2" data-name="Layer 2">
-                <path
-                  className="cls-1"
-                  d="M0,0H150V150H0Z"
-                  transform="translate(0 0)"
-                />
-              </g>
-              <g id="Group">
-                <path
-                  id="Shape"
-                  className="cls-2"
-                  d="M75.79,145.6l-61-35.24V39.88l61-35.25,61,35.25v70.48ZM127,104.69V45.54L75.78,16,24.56,45.54v59.15l51.22,29.57Z"
-                  transform="translate(0 0)"
-                />
-                <polygon
-                  id="Path"
-                  className="cls-3"
-                  points="85.45 107.69 85.45 97.8 117.16 79.36 117.16 69.55 85.45 87.81 85.45 77.99 117.2 59.74 117.19 51.22 75.79 27.3 34.38 51.22 34.38 99.02 75.79 122.93 117.2 99.01 117.2 89.19 85.45 107.69"
-                />
-              </g>
-            </svg>
-            <h1 className="text-xl font-semibold">DC SANDBOX</h1>
-          </div>
+          <SidebarHeaderContent />
         </SidebarHeader>
         <SidebarContent>
           <SidebarMenu>
@@ -235,5 +189,63 @@ function UserMenu() {
         <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+  );
+}
+
+function SidebarHeaderContent() {
+  const { state } = useSidebar();
+
+  return (
+    <div className="flex items-center gap-2">
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 150 150"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        className="flex-shrink-0"
+      >
+        <defs>
+          <style>
+            {".cls-1{fill:none;}.cls-2{fill:#762b8a;}.cls-3{fill:url(#linear-gradient);}"}
+          </style>
+          <linearGradient
+            id="linear-gradient"
+            x1="-211.24"
+            y1="482.2"
+            x2="-211.24"
+            y2="478.63"
+            gradientTransform="matrix(23.21, 0, 0, -26.8, 4978.74, 12949.98)"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0.2" stopColor="#c6168d" />
+            <stop offset="0.8" stopColor="#762b8a" />
+          </linearGradient>
+        </defs>
+        <g id="Layer_2" data-name="Layer 2">
+          <path
+            className="cls-1"
+            d="M0,0H150V150H0Z"
+            transform="translate(0 0)"
+          />
+        </g>
+        <g id="Group">
+          <path
+            id="Shape"
+            className="cls-2"
+            d="M75.79,145.6l-61-35.24V39.88l61-35.25,61,35.25v70.48ZM127,104.69V45.54L75.78,16,24.56,45.54v59.15l51.22,29.57Z"
+            transform="translate(0 0)"
+          />
+          <polygon
+            id="Path"
+            className="cls-3"
+            points="85.45 107.69 85.45 97.8 117.16 79.36 117.16 69.55 85.45 87.81 85.45 77.99 117.2 59.74 117.19 51.22 75.79 27.3 34.38 51.22 34.38 99.02 75.79 122.93 117.2 99.01 117.2 89.19 85.45 107.69"
+          />
+        </g>
+      </svg>
+      {state === "expanded" && (
+        <h1 className="text-xl font-semibold">DC SANDBOX</h1>
+      )}
+    </div>
   );
 }

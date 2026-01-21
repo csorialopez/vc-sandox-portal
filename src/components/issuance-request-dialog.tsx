@@ -18,6 +18,7 @@ interface IssuanceRequestDialogProps {
   onOpenChange: (open: boolean) => void;
   qrCodeValue: string | null;
   credentialOfferUri: string | null;
+  txCode?: string | null;
 }
 
 export function IssuanceRequestDialog({
@@ -25,6 +26,7 @@ export function IssuanceRequestDialog({
   onOpenChange,
   qrCodeValue,
   credentialOfferUri,
+  txCode,
 }: IssuanceRequestDialogProps) {
   
   if (!qrCodeValue || !credentialOfferUri) return null;
@@ -47,6 +49,15 @@ export function IssuanceRequestDialog({
             priority
           />
         </div>
+        {txCode && (
+          <div className="flex flex-col items-center gap-3">
+            <div>
+              <p className="text-sm text-muted-foreground">One-time code:</p>
+              <p className="text-2xl font-semibold tracking-widest text-center">{txCode}</p>
+            </div>
+            <div className="w-full h-2 bg-gradient-to-r from-purple-500 to-purple-200 rounded-full"></div>
+          </div>
+        )}
         <DialogFooter className="sm:justify-center flex-col items-center space-y-2">
             <Button asChild variant="default" size="sm">
               <a href={credentialOfferUri} target="_blank" rel="noopener noreferrer">

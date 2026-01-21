@@ -39,6 +39,7 @@ export function CredentialIssuer() {
   const [isQrDialogOpen, setIsQrDialogOpen] = useState(false);
   const [qrCodeValue, setQrCodeValue] = useState<string | null>(null);
   const [credentialOfferUri, setCredentialOfferUri] = useState<string | null>(null);
+  const [txCode, setTxCode] = useState<string | null>(null);
 
 
   const selectedCredential = useMemo(
@@ -150,6 +151,7 @@ export function CredentialIssuer() {
             // Parse JSON response
             const responseData = JSON.parse(htmlResponse);
             const offerUri = responseData.url_data;
+            const oneTimeCode = responseData.tx_code;
 
             if (!offerUri) {
                 throw new Error("Could not find credential offer URI in the response.");
@@ -160,6 +162,7 @@ export function CredentialIssuer() {
 
             setQrCodeValue(qrCodeUrl);
             setCredentialOfferUri(offerUri);
+            setTxCode(oneTimeCode || null);
             setIsQrDialogOpen(true);
              toast({
                 title: "Issuance Offer Created",
@@ -190,6 +193,7 @@ export function CredentialIssuer() {
     if (!open) {
         setQrCodeValue(null);
         setCredentialOfferUri(null);
+        setTxCode(null);
     }
   };
 
@@ -311,6 +315,7 @@ export function CredentialIssuer() {
           onOpenChange={handleDialogClose}
           qrCodeValue={qrCodeValue}
           credentialOfferUri={credentialOfferUri}
+          txCode={txCode}
         />
       )}
     </>

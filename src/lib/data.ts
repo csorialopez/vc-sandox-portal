@@ -30,9 +30,9 @@ export const credentialTypeAliases: Record<string, string> = {
   "urn:org.caricom.csme:skills:1": "CSME Skills Certificate",
   "urn:uy:interfase:diploma:1": "Academic Diploma",
   "urn:eu.europa.ec.eudi:age_over_18:1": "Age Over 18 Credential",
-  "eu.europa.ec.eudi.iban.1": "EBanking Credential",
-  "uy.interfase.student.credential:1": "Student Credential",
-  "uy.interfase.diploma.credential:1": "Diploma Credential",
+  "eu.europa.ec.eudi.iban.1": "eBanking Credential",
+  "uy.interfase.student.credential:1": "Student ID Credential",
+  "uy.interfase.diploma.credential:1": "Diploma Certificate Credential",
 };
 
 export function getCredentialTypeAlias(type: string): string {
@@ -112,7 +112,7 @@ export const credentialsData: VerifiableCredential[] = [
   },
   {
     id: "eu.europa.ec.eudi.iban.credential:1",
-    name: "EBanking Credential",
+    name: "eBanking Credential",
     issuer: "Bank",
     icon: Banknote,
     attributes: [
@@ -129,7 +129,7 @@ export const credentialsData: VerifiableCredential[] = [
   },
   {
     id: "uy.interfase.student.credential:1",
-    name: "Student Credential",
+    name: "Student ID Credential",
     issuer: "Educational Institution",
     icon: GraduationCap,
     attributes: [
@@ -146,7 +146,7 @@ export const credentialsData: VerifiableCredential[] = [
   },
   {
     id: "uy.interfase.diploma.credential:1",
-    name: "Diploma Credential",
+    name: "Diploma Certificate Credential",
     issuer: "Educational Institution",
     icon: FileText,
     attributes: [

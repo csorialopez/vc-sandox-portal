@@ -146,7 +146,7 @@ export function MdlPreAuthorizedForm() {
         const { issue_date, expiry_date, ...rest } = values;
 
         const response = await fetch(
-          "/api/issuer/api/v1/pre-auth/mdl",
+          "/api/v1/pre-auth/eu.europa.ec.eudi.mdl_mdoc",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

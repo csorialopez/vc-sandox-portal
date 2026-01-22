@@ -35,7 +35,7 @@ export function CredentialIssuer() {
 
   const [selectedCredentialId, setSelectedCredentialId] = useState<string>("");
   const [selectedFormat, setSelectedFormat] = useState<SupportedFormat>("mso_mdoc");
-  const [authFlow, setAuthFlow] = useState<AuthorizationFlow>("identity-provider");
+  const [authFlow, setAuthFlow] = useState<AuthorizationFlow>("pre-authorized");
   const [isQrDialogOpen, setIsQrDialogOpen] = useState(false);
   const [qrCodeValue, setQrCodeValue] = useState<string | null>(null);
   const [credentialOfferUri, setCredentialOfferUri] = useState<string | null>(null);
@@ -56,6 +56,9 @@ export function CredentialIssuer() {
         setAuthFlow('pre-authorized');
       }
        if (selectedCredential.id === 'eu.europa.ec.eudi.pid.1' && selectedFormat === 'dc+sd-jwt' && authFlow === 'identity-provider') {
+        setAuthFlow('pre-authorized');
+       }
+       if (selectedCredential.id === 'uy.interfase.diploma.1' && authFlow === 'identity-provider') {
         setAuthFlow('pre-authorized');
        }
     }
@@ -88,6 +91,22 @@ export function CredentialIssuer() {
         router.push('/credential-issuance/skills-pre-authorized');
         return;
       }
+      if (selectedCredential.id === 'eu.europa.ec.eudi.pseudonym.age_over_18.1') {
+        router.push('/credential-issuance/age-over-18-pre-authorized');
+        return;
+      }
+      if (selectedCredential.id === 'eu.europa.ec.eudi.iban.1') {
+        router.push('/credential-issuance/ebanking-pre-authorized');
+        return;
+      }
+      if (selectedCredential.id === 'uy.interfase.student.1') {
+        router.push('/credential-issuance/student-pre-authorized');
+        return;
+      }
+      if (selectedCredential.id === 'uy.interfase.diploma.1') {
+        router.push('/credential-issuance/diploma-pre-authorized');
+        return;
+      }
     }
 
     startTransition(async () => {
@@ -103,19 +122,19 @@ export function CredentialIssuer() {
             mso_mdoc: "/api/v1/pre-auth/eu.europa.ec.eudi.mdl_mdoc",
             "dc+sd-jwt": "/api/v1/pre-auth/eu.europa.ec.eudi.mdl_mdoc" // MDL only supports mdoc
           },
-          "urn:eu.europa.ec.eudi:age_over_18:1": {
+          "eu.europa.ec.eudi.pseudonym.age_over_18.1": {
             mso_mdoc: "/api/v1/pre-auth/eu.europa.ec.eudi.pseudonym_over18_mdoc",
             "dc+sd-jwt": "/api/v1/pre-auth/eu.europa.ec.eudi.pseudonym_over18_sd_jwt_vc"
           },
-          "eu.europa.ec.eudi.iban.credential:1": {
+          "eu.europa.ec.eudi.iban.1": {
             mso_mdoc: "/api/v1/pre-auth/eu.europa.ec.eudi.iban_mdoc",
             "dc+sd-jwt": "/api/v1/pre-auth/eu.europa.ec.eudi.iban_sd_jwt_vc"
           },
-          "uy.interfase.student.credential:1": {
+          "uy.interfase.student.1": {
             mso_mdoc: "/api/v1/pre-auth/uy.interfase.student_mdoc",
             "dc+sd-jwt": "/api/v1/pre-auth/uy.interfase.student_sd_jwt_vc"
           },
-          "uy.interfase.diploma.credential:1": {
+          "uy.interfase.diploma.1": {
             mso_mdoc: "/api/v1/pre-auth/uy.interfase.diploma_mdoc",
             "dc+sd-jwt": "/api/v1/pre-auth/uy.interfase.diploma_sd_jwt_vc"
           }
@@ -204,7 +223,7 @@ export function CredentialIssuer() {
     isPending ||
     selectedCredential?.id === "urn:org.caricom.csme:skills:1" ||
     (selectedCredential?.id === "eu.europa.ec.eudi.pid.1" && selectedFormat === "dc+sd-jwt") ||
-    selectedCredential?.id === "uy.interfase.diploma.credential:1";
+    selectedCredential?.id === "uy.interfase.diploma.1";
 
 
   return (

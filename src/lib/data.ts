@@ -25,14 +25,14 @@ export const credentialTypeAliases: Record<string, string> = {
   "org.iso.18013.5.1.mDL": "Mobile Driver Licence",
   "urn:eudi:pid:1": "Person Identification Data (sdjwt)",
   "urn:eu.europa.ec.eudi:pseudonym_age_over_18:1": "Age Over 18",
-  "uy.interfase.student.1": "Student Diploma",
-  "eu.europa.ec.eudi.iban.1": "IBAN",
+/*   "uy.interfase.student.1": "Student Diploma", */
+/*   "eu.europa.ec.eudi.iban.1": "IBAN", */
   "urn:org.caricom.csme:skills:1": "CSME Skills Certificate",
   "urn:uy:interfase:diploma:1": "Academic Diploma",
-  "urn:eu.europa.ec.eudi:age_over_18:1": "Age Over 18 Credential",
+  "eu.europa.ec.eudi.pseudonym.age_over_18.1": "Age Over 18 Credential",
   "eu.europa.ec.eudi.iban.1": "eBanking Credential",
-  "uy.interfase.student.credential:1": "Student ID Credential",
-  "uy.interfase.diploma.credential:1": "Diploma Certificate Credential",
+  "uy.interfase.student.1": "Student ID Credential",
+  "uy.interfase.diploma.1": "Diploma Certificate Credential",
 };
 
 export function getCredentialTypeAlias(type: string): string {
@@ -99,7 +99,7 @@ export const credentialsData: VerifiableCredential[] = [
     supportedFormats: ["dc+sd-jwt"],
   },
   {
-    id: "urn:eu.europa.ec.eudi:age_over_18:1",
+    id: "eu.europa.ec.eudi.pseudonym.age_over_18.1",
     name: "Age Over 18 Credential",
     issuer: "EU Member State",
     icon: Calendar,
@@ -111,7 +111,7 @@ export const credentialsData: VerifiableCredential[] = [
     supportedFormats: ["mso_mdoc", "dc+sd-jwt"],
   },
   {
-    id: "eu.europa.ec.eudi.iban.credential:1",
+    id: "eu.europa.ec.eudi.iban.1",
     name: "eBanking Credential",
     issuer: "Bank",
     icon: Banknote,
@@ -128,7 +128,7 @@ export const credentialsData: VerifiableCredential[] = [
     supportedFormats: ["mso_mdoc", "dc+sd-jwt"],
   },
   {
-    id: "uy.interfase.student.credential:1",
+    id: "uy.interfase.student.1",
     name: "Student ID Credential",
     issuer: "Educational Institution",
     icon: GraduationCap,
@@ -145,7 +145,7 @@ export const credentialsData: VerifiableCredential[] = [
     supportedFormats: ["mso_mdoc", "dc+sd-jwt"],
   },
   {
-    id: "uy.interfase.diploma.credential:1",
+    id: "uy.interfase.diploma.1",
     name: "Diploma Certificate Credential",
     issuer: "Educational Institution",
     icon: FileText,

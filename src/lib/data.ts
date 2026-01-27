@@ -159,7 +159,7 @@ export const credentialsData: VerifiableCredential[] = [
       { id: "diploma_number", name: "Diploma Number", description: "Unique diploma number." },
       { id: "honors", name: "Honors", description: "Any honors or distinctions." },
     ],
-    supportedFormats: ["dc+sd-jwt"],
+    supportedFormats: ["mso_mdoc", "dc+sd-jwt"],
   }
 ];
 

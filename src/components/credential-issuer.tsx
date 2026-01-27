@@ -58,9 +58,6 @@ export function CredentialIssuer() {
        if (selectedCredential.id === 'eu.europa.ec.eudi.pid.1' && selectedFormat === 'dc+sd-jwt' && authFlow === 'identity-provider') {
         setAuthFlow('pre-authorized');
        }
-       if (selectedCredential.id === 'uy.interfase.diploma.1' && authFlow === 'identity-provider') {
-        setAuthFlow('pre-authorized');
-       }
     }
   }, [selectedCredential, selectedFormat, authFlow]);
 
@@ -222,8 +219,7 @@ export function CredentialIssuer() {
   const isIdProviderDisabled =
     isPending ||
     selectedCredential?.id === "urn:org.caricom.csme:skills:1" ||
-    (selectedCredential?.id === "eu.europa.ec.eudi.pid.1" && selectedFormat === "dc+sd-jwt") ||
-    selectedCredential?.id === "uy.interfase.diploma.1";
+    (selectedCredential?.id === "eu.europa.ec.eudi.pid.1" && selectedFormat === "dc+sd-jwt");
 
 
   return (

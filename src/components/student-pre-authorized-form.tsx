@@ -32,18 +32,22 @@ const formSchema = z.object({
   given_name: z.string().min(1, "Given name is required"),
   family_name: z.string().min(1, "Family name is required"),
   student_id_number: z.string().min(1, "Student ID number is required"),
-  institution_name: z.string().min(1, "Institution name is required"),
-  institution_code: z.string().min(1, "Institution code is required"),
-  academic_year: z.coerce.number().min(1900, "Valid academic year required"),
+  institution: z.string().min(1, "Institution is required"),
+  program: z.string().min(1, "Program is required"),
+  issuance_date: z.string().min(1, "Issuance date is required"),
+  expiry_date: z.string().min(1, "Expiry date is required"),
+  portrait: z.string().min(1, "Portrait is required"),
 });
 
 const testData = {
   given_name: "example g",
   family_name: "example f",
   student_id_number: "example id",
-  institution_name: "example iname",
-  institution_code: "examplei icode",
-  academic_year: 2025,
+  institution: "example iname",
+  program: "examplei icode",
+  issuance_date: "1990-01-15",
+  expiry_date: "1990-01-15",
+  portrait: "",
 };
 
 type FormValues = z.infer<typeof formSchema>;
@@ -62,9 +66,11 @@ export function StudentPreAuthorizedForm() {
       given_name: "",
       family_name: "",
       student_id_number: "",
-      institution_name: "",
-      institution_code: "",
-      academic_year: new Date().getFullYear(),
+      institution: "",
+      program: "",
+      issuance_date: "",
+      expiry_date: "",
+      portrait: "",
     },
   });
 
@@ -72,23 +78,27 @@ export function StudentPreAuthorizedForm() {
     const firstNames = ["Carlos", "Maria", "Juan", "Sofia", "Luis", "Ana", "Jose", "Laura"];
     const lastNames = ["Perez", "Garcia", "Rodriguez", "Lopez", "Martinez", "Sanchez", "Gomez", "Fernandez"];
     const institutions = ["Universidad Nacional", "Instituto Técnico", "Colegio Mayor"];
+    const programs = ["Computer Science", "Engineering", "Business Administration"];
     
     const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
     const randomInstitution = institutions[Math.floor(Math.random() * institutions.length)];
+    const randomProgram = programs[Math.floor(Math.random() * programs.length)];
     const randomStudentId = `STU${Math.floor(Math.random() * 100000)
       .toString()
       .padStart(5, "0")}`;
+    const today = new Date();
+    const expiryDate = new Date(today.getFullYear() + 4, today.getMonth(), today.getDate());
 
     form.reset({
       given_name: randomFirstName,
       family_name: randomLastName,
       student_id_number: randomStudentId,
-      institution_name: randomInstitution,
-      institution_code: `INST${Math.floor(Math.random() * 10000)
-        .toString()
-        .padStart(4, "0")}`,
-      academic_year: 2025,
+      institution: randomInstitution,
+      program: randomProgram,
+      issuance_date: today.toISOString().split('T')[0],
+      expiry_date: expiryDate.toISOString().split('T')[0],
+      portrait: "",
     });
   };
 
@@ -222,13 +232,13 @@ export function StudentPreAuthorizedForm() {
 
                   <FormField
                     control={form.control}
-                    name="institution_name"
+                    name="institution"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Institution Name</FormLabel>
+                        <FormLabel>Institution</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter institution name"
+                            placeholder="Enter institution"
                             disabled={isPending}
                             {...field}
                           />
@@ -240,13 +250,13 @@ export function StudentPreAuthorizedForm() {
 
                   <FormField
                     control={form.control}
-                    name="institution_code"
+                    name="program"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Institution Code</FormLabel>
+                        <FormLabel>Program</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter institution code"
+                            placeholder="Enter program"
                             disabled={isPending}
                             {...field}
                           />
@@ -258,16 +268,61 @@ export function StudentPreAuthorizedForm() {
 
                   <FormField
                     control={form.control}
-                    name="academic_year"
+                    name="issuance_date"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Academic Year</FormLabel>
+                        <FormLabel>Issuance Date</FormLabel>
                         <FormControl>
                           <Input
-                            type="number"
-                            placeholder="e.g., 2025"
+                            type="date"
                             disabled={isPending}
                             {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="expiry_date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Expiry Date</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="date"
+                            disabled={isPending}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="portrait"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Portrait</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            disabled={isPending}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  field.onChange(reader.result);
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
                           />
                         </FormControl>
                         <FormMessage />

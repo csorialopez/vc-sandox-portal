@@ -27,28 +27,27 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Separator } from "./ui/separator";
 import { PreAuthorizedIssuanceDialog } from "./pre-authorized-issuance-dialog";
-import { Checkbox } from "./ui/checkbox";
 
 const formSchema = z.object({
   given_name: z.string().min(1, "Given name is required"),
   family_name: z.string().min(1, "Family name is required"),
-  diploma_title: z.string().min(1, "Diploma title is required"),
-  program_course: z.string().min(1, "Program/course is required"),
-  graduation_date: z.string().min(1, "Graduation date is required"),
-  academic_result: z.boolean().default(false),
-  completion_state: z.string().min(1, "Completion state is required"),
-  honors: z.boolean().default(false),
+  student_id_number: z.string().min(1, "Student ID number is required"),
+  diploma_id: z.string().min(1, "Diploma ID is required"),
+  diploma_name: z.string().min(1, "Diploma name is required"),
+  issuing_institution: z.string().min(1, "Issuing institution is required"),
+  academic_affiliation: z.string().min(1, "Academic affiliation is required"),
+  issuance_date: z.string().min(1, "Issuance date is required"),
 });
 
 const testData = {
   given_name: "example name",
   family_name: "example last",
-  diploma_title: "example title",
-  program_course: "example course",
-  graduation_date: "2025-12-12",
-  academic_result: true,
-  completion_state: "example",
-  honors: true,
+  student_id_number: "123123",
+  diploma_id: "example title",
+  diploma_name: "example course",
+  issuing_institution: "test",
+  academic_affiliation: "true",
+  issuance_date: "2025-12-12",
 };
 
 type FormValues = z.infer<typeof formSchema>;
@@ -66,38 +65,41 @@ export function DiplomaPreAuthorizedForm() {
     defaultValues: {
       given_name: "",
       family_name: "",
-      diploma_title: "",
-      program_course: "",
-      graduation_date: "",
-      academic_result: false,
-      completion_state: "",
-      honors: false,
+      student_id_number: "",
+      diploma_id: "",
+      diploma_name: "",
+      issuing_institution: "",
+      academic_affiliation: "",
+      issuance_date: "",
     },
   });
 
   const fillWithTestData = () => {
     const firstNames = ["Carlos", "Maria", "Juan", "Sofia", "Luis", "Ana", "Jose", "Laura"];
     const lastNames = ["Perez", "Garcia", "Rodriguez", "Lopez", "Martinez", "Sanchez", "Gomez", "Fernandez"];
-    const titles = ["Bachelor of Science", "Master of Engineering", "Diploma in Computer Science"];
-    const courses = ["Software Development", "Data Science", "Information Technology"];
+    const institutions = ["Universidad Nacional", "Instituto Técnico", "Colegio Mayor"];
+    const affiliations = ["Full-time", "Part-time", "Online"];
     
     const randomFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
     const randomLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
-    const randomTitle = titles[Math.floor(Math.random() * titles.length)];
-    const randomCourse = courses[Math.floor(Math.random() * courses.length)];
-    const randomYear = 2024 - Math.floor(Math.random() * 5);
-    const randomMonth = Math.floor(Math.random() * 12) + 1;
-    const randomDay = Math.floor(Math.random() * 28) + 1;
+    const randomInstitution = institutions[Math.floor(Math.random() * institutions.length)];
+    const randomAffiliation = affiliations[Math.floor(Math.random() * affiliations.length)];
+    const randomDiplomaId = `DIP${Math.floor(Math.random() * 100000)
+      .toString()
+      .padStart(5, "0")}`;
+    const randomStudentId = `STU${Math.floor(Math.random() * 100000)
+      .toString()
+      .padStart(5, "0")}`;
 
     form.reset({
       given_name: randomFirstName,
       family_name: randomLastName,
-      diploma_title: randomTitle,
-      program_course: randomCourse,
-      graduation_date: `${randomYear}-${String(randomMonth).padStart(2, "0")}-${String(randomDay).padStart(2, "0")}`,
-      academic_result: true,
-      completion_state: "Completed",
-      honors: Math.random() > 0.5,
+      student_id_number: randomStudentId,
+      diploma_id: randomDiplomaId,
+      diploma_name: "Bachelor of Science",
+      issuing_institution: randomInstitution,
+      academic_affiliation: randomAffiliation,
+      issuance_date: new Date().toISOString().split('T')[0],
     });
   };
 
@@ -213,13 +215,13 @@ export function DiplomaPreAuthorizedForm() {
 
                   <FormField
                     control={form.control}
-                    name="diploma_title"
+                    name="student_id_number"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Diploma Title</FormLabel>
+                        <FormLabel>Student ID Number</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter diploma title"
+                            placeholder="Enter student ID"
                             disabled={isPending}
                             {...field}
                           />
@@ -231,13 +233,13 @@ export function DiplomaPreAuthorizedForm() {
 
                   <FormField
                     control={form.control}
-                    name="program_course"
+                    name="diploma_id"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Program/Course</FormLabel>
+                        <FormLabel>Diploma ID</FormLabel>
                         <FormControl>
                           <Input
-                            placeholder="Enter program or course"
+                            placeholder="Enter diploma ID"
                             disabled={isPending}
                             {...field}
                           />
@@ -249,10 +251,64 @@ export function DiplomaPreAuthorizedForm() {
 
                   <FormField
                     control={form.control}
-                    name="graduation_date"
+                    name="diploma_name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Graduation Date</FormLabel>
+                        <FormLabel>Diploma Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter diploma name"
+                            disabled={isPending}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="issuing_institution"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Issuing Institution</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter issuing institution"
+                            disabled={isPending}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="academic_affiliation"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Academic Affiliation</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter academic affiliation"
+                            disabled={isPending}
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="issuance_date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Issuance Date</FormLabel>
                         <FormControl>
                           <Input
                             type="date"
@@ -261,62 +317,6 @@ export function DiplomaPreAuthorizedForm() {
                           />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="completion_state"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Completion State</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter completion state"
-                            disabled={isPending}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="academic_result"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            disabled={isPending}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel>Academic Result</FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="honors"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                            disabled={isPending}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel>Honors</FormLabel>
-                        </div>
                       </FormItem>
                     )}
                   />

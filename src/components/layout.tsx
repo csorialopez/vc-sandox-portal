@@ -154,7 +154,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
         <footer className="mt-auto p-6 text-center text-sm text-muted-foreground">
              &copy; {new Date().getFullYear()} Powered by Entrust. All Rights Reserved.
              <span className="mx-2">|</span>
-             <Link href="/about" className="hover:underline">About DC Sandbox</Link>
+             <Link href="/about" className="hover:underline">About DC Wallet System</Link>
         </footer>
       </SidebarInset>
       <AddCredentialTemplateDialog open={isAddTemplateOpen} onOpenChange={setIsAddTemplateOpen} />
@@ -244,7 +244,7 @@ function SidebarHeaderContent() {
         </g>
       </svg>
       {state === "expanded" && (
-        <h1 className="text-xl font-semibold">DC SANDBOX</h1>
+        <h1 className="text-xl font-semibold">DC WALLET SYSTEM</h1>
       )}
     </div>
   );

@@ -7,7 +7,7 @@ import { SettingsProvider } from '@/context/settings-context';
 import { AuthProvider } from '@/context/auth-context';
 
 export const metadata: Metadata = {
-  title: 'DC SANDBOX',
+  title: 'DC WALLET SYSTEM',
   description: 'Manage your digital credentials with ease.',
 };
 

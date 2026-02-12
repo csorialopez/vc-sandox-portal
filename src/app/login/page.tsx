@@ -75,7 +75,7 @@ export default function LoginPage() {
               </g>
             </svg>
           </div>
-          <CardTitle className="text-2xl text-center">DC SANDBOX</CardTitle>
+          <CardTitle className="text-2xl text-center">DC WALLET SYSTEM</CardTitle>
           <CardDescription className="text-center">
             Enter your credentials to continue
           </CardDescription>

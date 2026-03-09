@@ -361,7 +361,11 @@ export function PidPreAuthorizedForm() {
                                             const reader = new FileReader();
                                             reader.onloadend = () => {
                                                 const result = reader.result as string;
-                                                const base64Content = result.split(',')[1] || '';
+                                                const base64Content = result
+                                                    .replace(/^data:.*;base64,/, '')
+                                                    .replace(/\+/g, '-')
+                                                    .replace(/\//g, '_')
+                                                    .replace(/=/g, '');
                                                 form.setValue("portrait", base64Content);
                                                 toast({
                                                     title: "Image Loaded",

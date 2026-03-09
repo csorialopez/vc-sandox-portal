@@ -99,7 +99,7 @@ export function StudentPreAuthorizedForm() {
       program: randomProgram,
       issuance_date: today.toISOString().split('T')[0],
       expiry_date: expiryDate.toISOString().split('T')[0],
-      portrait: `data:image/jpeg;base64,${portraitBase64}`,
+      portrait: portraitBase64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, ''),
     });
   };
 
@@ -319,7 +319,13 @@ export function StudentPreAuthorizedForm() {
                               if (file) {
                                 const reader = new FileReader();
                                 reader.onloadend = () => {
-                                  field.onChange(reader.result);
+                                  const result = reader.result as string;
+                                  const base64Content = result
+                                    .replace(/^data:.*;base64,/, '')
+                                    .replace(/\+/g, '-')
+                                    .replace(/\//g, '_')
+                                    .replace(/=/g, '');
+                                  field.onChange(base64Content);
                                 };
                                 reader.readAsDataURL(file);
                               }

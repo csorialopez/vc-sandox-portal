@@ -132,8 +132,7 @@ export function MdlPreAuthorizedForm() {
       const base64Content = result
         .replace(/^data:.*;base64,/, '')
         .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=/g, '');
+        .replace(/\//g, '_');
       form.setValue("portrait", base64Content);
        toast({
         title: "Image Loaded",

@@ -117,11 +117,11 @@ export function MdlPreAuthorizedForm() {
     const file = event.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 200 * 1024) {
+    if (file.size > 5000 * 1024) {
       toast({
         variant: "destructive",
         title: "Image Too Large",
-        description: "Please select an image smaller than 200KB.",
+        description: "Please select an image smaller than 5MB.",
       });
       return;
     }

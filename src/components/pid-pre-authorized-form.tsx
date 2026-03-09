@@ -350,11 +350,11 @@ export function PidPreAuthorizedForm() {
                                     onChange={(e) => {
                                         const file = e.target.files?.[0];
                                         if (file) {
-                                            if (file.size > 200 * 1024) {
+                                            if (file.size > 5000 * 1024) {
                                                 toast({
                                                     variant: "destructive",
                                                     title: "Image too large",
-                                                    description: "Please select an image smaller than 200KB.",
+                                                    description: "Please select an image smaller than 5Mb.",
                                                 });
                                                 return;
                                             }

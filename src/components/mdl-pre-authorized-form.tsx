@@ -147,7 +147,7 @@ export function MdlPreAuthorizedForm() {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     startTransition(async () => {
       try {
-        const { issue_date, expiry_date, ...rest } = values;
+        const { issue_date, expiry_date, driving_privileges, ...rest } = values;
 
         const response = await fetch(
           "/api/v1/pre-auth/eu.europa.ec.eudi.mdl_mdoc",
@@ -156,6 +156,7 @@ export function MdlPreAuthorizedForm() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               ...rest,
+              driving_privileges: JSON.stringify(driving_privileges),
               IssueDate1: issue_date,
               ExpiryDate1: expiry_date,
               NumberCategories: "1",

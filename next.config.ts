@@ -1,5 +1,8 @@
-
 import type {NextConfig} from 'next';
+
+// Permite ignorar errores de certificados SSL (útil para servicios internos con certificados auto-firmados)
+// ADVERTENCIA: No se recomienda para producción por riesgos de seguridad.
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const nextConfig: NextConfig = {
   /* config options here */
